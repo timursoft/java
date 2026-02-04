@@ -1,24 +1,25 @@
 <template>
-  <div>
-    <h2>Customize Your Avatar</h2>
-    <AvatarPreview />
-    <AccessorySelector />
+  <div class="avatar-customization">
+    <AvatarStyleSelector />
+    <StylePreview />
   </div>
 </template>
 
 <script>
-import AvatarPreview from '@/components/Avatar/AvatarPreview.vue';
-import AccessorySelector from '@/components/Avatar/AccessorySelector.vue';
+import AvatarStyleSelector from '@/components/AvatarStyleSelector.vue';
+import StylePreview from '@/components/StylePreview.vue';
 
 export default {
   name: 'AvatarCustomization',
   components: {
-    AvatarPreview,
-    AccessorySelector,
+    AvatarStyleSelector,
+    StylePreview,
   },
 };
 </script>
 
 <style scoped>
-/* Add any additional styling needed for layout */
+.avatar-customization {
+  /* Add styles as per the design system */
+}
 </style>
