@@ -1,29 +1,30 @@
-from backend.app.models.user import Invitation
-from backend.app.utils.email_util import send_email
-from backend.app import db
-from loguru import logger
+from backend.app.models.user_model import User
+from backend.app.models.invitation_model import Invitation
+from backend.app.controllers.reward_controller import credit_user_reward
+from backend.app.utils.logger import logger
 
-class InvitationService:
-    @staticmethod
-    def send_invitation_email(invited_by_user_id: int, emails: list[str]) -> None:
-        """Send invitation emails to a list of provided emails."""
-        logger.info("Sending invitations for user id {}", invited_by_user_id)
-        for email in emails:
-            if not validate_email(email):
-                logger.error("Invalid email address: {}", email)
-                continue
-            invitation = Invitation(email=email, invited_by_user_id=invited_by_user_id)
-            invitation.generate_referral_link()
-            db.session.add(invitation)
-            try:
-                send_email(to=email, subject="You're Invited!", body=f"Join us using this link: {invitation.referral_link}")
-                db.session.commit()
-                logger.info("Invitation sent to {}", email)
-            except Exception as e:
-                db.session.rollback()
-                logger.error("Failed to send invitation to {}: {}", email, str(e))
 
-def validate_email(email: str) -> bool:
-    """Validate the email address format."""
-    # Basic email validation logic
-    return '@' in email and '.' in email
+def handle_invitation(invitation_id: int) -> None:
+    """
+    Handle an invitation by processing the invitation
+    and crediting the inviter with a reward if applicable.
+    """
+    try:
+        invitation = Invitation.query.get(invitation_id)
+        if not invitation:
+            logger.error("Invitation with id {} not found", invitation_id)
+            return
+
+        if invitation.is_accepted:
+            logger.info("Invitation {} already accepted", invitation_id)
+            return
+
+        # Mark the invitation as accepted
+        invitation.is_accepted = True
+        invitation.save()
+
+        logger.info("Processing reward for invitation id {}", invitation_id)
+        credit_user_reward(invitation.inviter_id)
+
+    except Exception as e:
+        logger.error("Failed to handle invitation {}: {}", invitation_id, str(e))
