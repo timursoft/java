@@ -1,6 +1,13 @@
-import axios from 'axios';
+import axios from 'axios'
 
-export async function fetchAvailableAccessories() {
-  const response = await axios.get('/api/accessories');
-  return response.data;
+export default {
+  async saveAvatar(avatarData) {
+    try {
+      const response = await axios.post('/api/avatar', avatarData)
+      return response.data
+    } catch (error) {
+      console.error('API call failed:', error)
+      return { success: false }
+    }
+  }
 }

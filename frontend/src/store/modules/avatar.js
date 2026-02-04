@@ -1,11 +1,33 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import avatarStyles from './avatarStyles';
+import avatarApi from '@/api/avatarApi'
 
-Vue.use(Vuex);
+const state = {
+  avatar: null
+}
 
-export default new Vuex.Store({
-  modules: {
-    avatarStyles,
-  },
-});
+const mutations = {
+  SET_AVATAR(state, avatar) {
+    state.avatar = avatar
+  }
+}
+
+const actions = {
+  async saveAvatarToProfile({ commit }, avatarData) {
+    try {
+      const response = await avatarApi.saveAvatar(avatarData)
+      if (response.success) {
+        commit('SET_AVATAR', avatarData)
+        return true
+      }
+    } catch (error) {
+      console.error('Failed to save avatar:', error)
+    }
+    return false
+  }
+}
+
+export default {
+  namespaced: true,
+  state,
+  mutations,
+  actions
+}
