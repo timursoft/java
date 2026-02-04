@@ -1,35 +1,21 @@
 <template>
   <div>
-    <button @click="shareOnTwitter" v-if="canShareOnTwitter">Share on Twitter</button>
-    <!-- Existing share buttons -->
+    <button @click="shareOnInstagram">Share on Instagram</button>
+    <!-- existing buttons -->
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { useStore } from 'vuex';
-import SocialSharing from 'vue-social-sharing';
-
-export default defineComponent({
-  components: {
-    SocialSharing
+<script>
+export default {
+  methods: {
+    shareOnInstagram() {
+      this.$store.dispatch('leaderboard/shareOnInstagram', this.leaderboardData);
+    }
   },
-  setup() {
-    const store = useStore();
-    const canShareOnTwitter = true; // Add logic to determine if sharing is possible
-
-    const shareOnTwitter = () => {
-      const rankingText = store.getters['leaderboard/getFormattedRankingForTwitter'];
-      store.dispatch('leaderboard/shareOnTwitter', rankingText);
-    };
-
-    return { canShareOnTwitter, shareOnTwitter };
+  computed: {
+    leaderboardData() {
+      return this.$store.state.leaderboard.data;
+    }
   }
-});
-</script>
-
-<style scoped>
-button {
-  /* Add styling */
 }
-</style>
+</script>

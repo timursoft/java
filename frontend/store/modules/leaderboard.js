@@ -1,42 +1,22 @@
-import { Module } from 'vuex';
+import { shareToInstagram } from '../../api/socialMediaShare';
 
 const state = {
-  // existing state
-};
-
-const getters = {
-  getFormattedRankingForTwitter: (state) => {
-    // Format the leaderboard ranking for Twitter
-    return `I'm ranked #1 on the leaderboard! #Leaderboard`;
-  },
+  data: {},
 };
 
 const actions = {
-  shareOnTwitter({ commit }, rankingText) {
-    // Simulate Twitter sharing via vue-social-sharing
-    this.$socialSharing.share({
-      network: 'twitter',
-      url: window.location.href,
-      text: rankingText
-    }).then(() => {
-      commit('setShareConfirmation', 'Successfully shared on Twitter!');
-    }).catch((error) => {
-      console.error('Error sharing on Twitter:', error);
-    });
+  async shareOnInstagram({ state }) {
+    try {
+      const formattedData = this._vm.$formatters.formatForInstagram(state.data);
+      await shareToInstagram(formattedData);
+      this._vm.$notify({ type: 'success', message: 'Shared successfully on Instagram!' });
+    } catch (error) {
+      this._vm.$notify({ type: 'error', message: 'Failed to share on Instagram.' });
+    }
   },
 };
 
-const mutations = {
-  setShareConfirmation(state, message) {
-    // Update state or UI with confirmation message
-    console.log(message);
-  },
-};
-
-export const leaderboard: Module<any, any> = {
-  namespaced: true,
+export default {
   state,
-  getters,
   actions,
-  mutations
 };
