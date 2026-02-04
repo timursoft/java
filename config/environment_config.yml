@@ -1,0 +1,6 @@
+# Environment configuration for cross-platform development
+
+android:
+  sdk_version: "30.0.3"
+ios:
+  sdk_version: "14.5"
