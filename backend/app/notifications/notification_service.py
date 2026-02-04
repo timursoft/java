@@ -1,17 +1,13 @@
 class NotificationService:
-    # Existing methods...
+    def __init__(self):
+        self._observers = []
 
-    @staticmethod
-    def send_invitation_notification(user_id: int, game_id: int, inviter_id: int) -> None:
-        """
-        Send a game invitation notification to a user.
+    def register_observer(self, observer):
+        self._observers.append(observer)
 
-        :param user_id: ID of the user to notify
-        :param game_id: ID of the game
-        :param inviter_id: ID of the user sending the invite
-        """
-        try:
-            # Logic to send notification
-            logger.info("Invitation notification sent to user {} for game {} from user {}", user_id, game_id, inviter_id)
-        except Exception as e:
-            logger.exception("Failed to send invitation notification: {}", e)
+    def unregister_observer(self, observer):
+        self._observers.remove(observer)
+
+    def notify_match_found(self, player, opponent):
+        for observer in self._observers:
+            observer.update(player, opponent)
