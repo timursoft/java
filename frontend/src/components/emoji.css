@@ -1,0 +1,9 @@
+.emoji-mart {
+  width: 250px;
+}
+.emoji-mart-category {
+  padding: 10px;
+}
+.emoji-mart-emoji {
+  cursor: pointer;
+}
