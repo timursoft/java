@@ -1,32 +1,26 @@
+import Vue from 'vue';
+import Vuex from 'vuex';
 import axios from 'axios';
-import { logger } from '@/utils/logger';
 
-const state = {
-  invitations: [],
-};
+Vue.use(Vuex);
 
-const mutations = {
-  ADD_INVITATION(state, invitation) {
-    state.invitations.push(invitation);
+export default new Vuex.Store({
+  state: {
+    invitations: []
   },
-};
-
-const actions = {
-  async sendInvitations({ commit }, emails) {
-    try {
-      const response = await axios.post('/api/invitations/send', { emails });
-      response.data.forEach(invitation => {
-        commit('ADD_INVITATION', invitation);
-      });
-      logger.info('Invitations sent successfully.');
-    } catch (error) {
-      logger.error('Failed to send invitations: {}', error.message);
+  mutations: {
+    SET_INVITATIONS(state, invitations) {
+      state.invitations = invitations;
     }
   },
-};
-
-export default {
-  state,
-  mutations,
-  actions,
-};
+  actions: {
+    async fetchInvitations({ commit }) {
+      try {
+        const response = await axios.get('/api/invitations');
+        commit('SET_INVITATIONS', response.data);
+      } catch (error) {
+        console.error('Error fetching invitations:', error);
+      }
+    }
+  }
+});
