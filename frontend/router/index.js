@@ -1,15 +1,15 @@
-import { createRouter, createWebHistory } from 'vue-router';
-// existing imports
+import Vue from 'vue';
+import Router from 'vue-router';
+import AchievementShareDialog from '@/components/AchievementShareDialog.vue';
 
-const routes = [
-  // existing routes
-];
+Vue.use(Router);
 
-const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes
+export default new Router({
+  routes: [
+    {
+      path: '/share-achievements',
+      name: 'ShareAchievements',
+      component: AchievementShareDialog
+    }
+  ]
 });
-
-// Potentially add new route or guard if needed
-
-export default router;
