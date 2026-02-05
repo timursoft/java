@@ -1,4 +1,20 @@
+import json
+import pytest
+from backend.app import create_app
+
+
 def test_get_main_menu_auth_required():
-    """Test menu access without authentication returns 401 if auth is required."""
-    response = client.get("/api/menu")
-    assert response.status_code in [200, 401], "Expected status code 401 if authentication is required else 200"
+    app = create_app()
+    client = app.test_client()
+    response = client.get('/api/main-menu')
+    
+    assert response.status_code == 401, f"Unexpected status code: {response.status_code}"
+    
+    try:
+        data = json.loads(response.data)
+        assert 'error' in data, "Response JSON does not have 'error' key"
+        assert isinstance(data['error'], str), "'error' should be a string"
+    except json.JSONDecodeError:
+        pytest.fail("Response is not valid JSON")
+    except Exception as e:
+        pytest.fail(f"Unexpected error in response structure: {e}")
