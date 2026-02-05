@@ -1,0 +1,18 @@
+.hud-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+    background-color: var(--hud-bg-color);
+}
+
+.hud-item {
+    color: var(--hud-text-color);
+    font-size: var(--hud-font-size);
+}
+
+@media (max-width: 600px) {
+    .hud-container {
+        flex-direction: column;
+    }
+}
