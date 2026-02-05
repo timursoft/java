@@ -1,0 +1,23 @@
+/* Media queries for responsive design */
+
+/* Default styles for mobile */
+.game-layout {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+    .game-layout {
+        flex-direction: row;
+        padding: 20px;
+    }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+    .game-layout {
+        padding: 30px;
+    }
+}
