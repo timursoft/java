@@ -1,0 +1,22 @@
+.button-group button {
+  background-color: var(--primary-color);
+  color: var(--text-on-primary);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button-group button:hover {
+  background-color: var(--primary-color-hover);
+}
+
+.button-group button:focus {
+  outline: 2px solid var(--focus-outline);
+}
+
+.button-group button:disabled {
+  background-color: var(--disabled-color);
+  cursor: not-allowed;
+}
