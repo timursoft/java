@@ -1,0 +1,23 @@
+/* Branding styles for app launch visuals */
+
+.launch-visual {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.launch-heading {
+    font-family: 'BrandFont', sans-serif;
+    color: #333;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.launch-description {
+    font-family: 'BrandFont', sans-serif;
+    color: #666;
+    text-align: center;
+    margin: 10px 0;
+}
