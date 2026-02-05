@@ -1,18 +1,15 @@
 from typing import Optional
-from backend.app.models import User
+from backend.app.models.user import User
+from backend.app.database.repositories.user_repository import UserRepository
 
 class UserService:
-    # Existing methods...
+    def __init__(self, user_repository: UserRepository):
+        self.user_repository = user_repository
 
-    def search_by_username(self, username: str) -> Optional[User]:
-        """
-        Search for a user by username.
-
-        :param username: Username to search for
-        :return: User object if found, None otherwise
-        """
+    async def get_user_by_id(self, user_id: int) -> Optional[User]:
         try:
-            return User.get_by_username(username)
+            user = await self.user_repository.find_by_id(user_id)
+            return user
         except Exception as e:
-            logger.exception("Error searching user by username: {}", e)
+            logger.error("Error retrieving user from repository: {}", e)
             return None
